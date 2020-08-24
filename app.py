@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for
+from flask import Flask, flash, render_template, redirect, request, url_for
 from flask_mysqldb import MySQL
 from werkzeug.utils import secure_filename
 
@@ -12,6 +12,10 @@ app.config['MYSQL_PASSWORD'] = 'ALDEb45sxH'
 app.config['MYSQL_HOST'] = 'sql10.freemysqlhosting.net'
 app.config['MYSQL_DB'] = 'sql10361967'
 # app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
+
+
+# set the secret key
+app.secret_key = 'MySecretKey'
 
 
 # Set the database on the app
@@ -44,7 +48,8 @@ def add_client():
               VALUES (%s, %s, %s, %s, %s)
               ''', (cedula, nombre, direccion, telefono, foto_name))
         mysql.connection.commit()
-        return 'Data saved!'
+        flash('Registro agregado con exito')
+        return redirect(url_for('add_client'))
     else:
         return render_template('client.html')
 
