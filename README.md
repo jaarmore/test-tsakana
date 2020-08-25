@@ -19,7 +19,7 @@ La distribuidora **Sancho Limitada**, se especializa en la venta de ropa (retail
 - [x] Listar Clientes 
 - Listar Facturas 
 - Desactivar productos (*dejando de aparecer en el listado*)
-- Eliminar Clientes
+- [x] Eliminar Clientes
 - Listar clientes ordenados por cantidad de compras realizadas (factura = compra)
 
 Se le solicita que junto a este desarrollo facilite un servicio API para consultar facturas por código, el cuál recibe un código de factura y retorna el valor total, ya que los clientes de la empresa deben conectar su sistema contable a este servicio.
