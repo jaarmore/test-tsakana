@@ -18,7 +18,7 @@ La distribuidora **Sancho Limitada**, se especializa en la venta de ropa (retail
 - [x] Listar Productos 
 - [x] Listar Clientes 
 - Listar Facturas 
-- Desactivar productos (*dejando de aparecer en el listado*)
+- [x] Desactivar productos (*dejando de aparecer en el listado*)
 - [x] Eliminar Clientes
 - Listar clientes ordenados por cantidad de compras realizadas (factura = compra)
 

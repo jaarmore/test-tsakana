@@ -148,6 +148,57 @@ def add_product():
         return render_template('product.html')
 
 
+# Route for edit client
+@app.route('/edit_product/<string:id>')
+def edit_product(id):
+    cur = mysql.connection.cursor()
+    cur.execute('''
+      SELECT * FROM productos WHERE id = {}
+    '''.format(id))
+    product = cur.fetchall()
+    return render_template('update_product.html', data=product[0])
+
+
+@app.route('/update_product/<string:id>', methods=['POST'])
+def update_product(id):
+    if request.method == 'POST':
+        codigo = request.form['codigo']
+        categoria = request.form['categoria']
+        nombre = request.form['nombreprod']
+        precio = request.form['precio']
+        cantidad = request.form['cantidad']
+        estado = request.form['estado']
+        cur = mysql.connection.cursor()
+        cur.execute('''
+          UPDATE productos
+          SET
+            codigo = %s,
+            categoria = %s,
+            nomprod = %s,
+            precio = %s,
+            cantbod = %s,
+            estado = %s
+          WHERE id = %s
+        ''', (codigo, categoria,
+              nombre, precio,
+              cantidad, estado, id))
+        mysql.connection.commit()
+        flash('Producto Actualizado!')
+        return redirect(url_for('product'))
+
+
+# Route for delete product
+@app.route('/delete_product/<string:id>')
+def delete_product(id):
+    cur = mysql.connection.cursor()
+    cur.execute('''
+      DELETE FROM productos WHERE id = {}
+    '''.format(id))
+    mysql.connection.commit()
+    flash('Producto removido!')
+    return redirect(url_for('product'))
+
+
 # call to flask app
 if __name__ == '__main__':
     app.run(debug=True)
