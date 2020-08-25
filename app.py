@@ -28,6 +28,15 @@ def index():
     return render_template('index.html')
 
 
+# Route for Client
+@app.route('/client')
+def client():
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT * from clientes''')
+    sql_cli = cur.fetchall()
+    return render_template('client.html', cliente=sql_cli)
+
+
 # Route for add client
 @app.route('/add_client', methods=['GET', 'POST'])
 def add_client():
@@ -48,22 +57,66 @@ def add_client():
               VALUES (%s, %s, %s, %s, %s)
               ''', (cedula, nombre, direccion, telefono, foto_name))
         mysql.connection.commit()
-        flash('Registro agregado con exito')
-        return redirect(url_for('add_client'))
+        flash('Cliente agregado con exito')
+        return redirect(url_for('client'))
     else:
         return render_template('client.html')
 
 
 # Route for edit client
-@app.route('/edit_client')
-def edit_client():
-    return 'Client edited'
+@app.route('/edit_client/<string:id>')
+def edit_client(id):
+    cur = mysql.connection.cursor()
+    cur.execute('''
+      SELECT * FROM clientes WHERE id = {}
+    '''.format(id))
+    client = cur.fetchall()
+    return render_template('update_client.html', data=client[0])
+
+
+@app.route('/update_client/<string:id>', methods=['POST'])
+def update_client(id):
+    if request.method == 'POST':
+        cedula = request.form['cedula']
+        nombre = request.form['nombre']
+        direccion = request.form['direccion']
+        telefono = request.form['telefono']
+        foto = request.files['foto']
+        foto_name = secure_filename(foto.filename)
+        foto.save('/home/jaarmore/test-tsakana/static/user_files/' + foto_name)
+        print(cedula, nombre, direccion, telefono, foto_name)
+        cur = mysql.connection.cursor()
+        cur.execute('''
+          UPDATE clientes
+          SET
+            cedula = %s,
+            nombre = %s,
+            direccion = %s,
+            telefono = %s,
+            foto = %s
+          WHERE id = %s
+        ''', (cedula, nombre, direccion, telefono, foto_name, id))
+        mysql.connection.commit()
+        flash('Cliente Actualizado!')
+        return redirect(url_for('client'))
 
 
 # Route for delete client
-@app.route('/delete_client')
-def delete_client():
-    return 'Client deleted'
+@app.route('/delete_client/<string:id>')
+def delete_client(id):
+    cur = mysql.connection.cursor()
+    cur.execute('''
+      DELETE FROM clientes WHERE id = {}
+    '''.format(id))
+    mysql.connection.commit()
+    flash('Cliente removido!')
+    return redirect(url_for('client'))
+
+
+# Route for products
+@app.route('/product')
+def product():
+    return render_template('product.html')
 
 
 # call to flask app

@@ -1,6 +1,6 @@
 {% extends 'base_template.html' %}
 
-{% block title %}Cliente{% endblock %}
+{% block title %}Client Page{% endblock %}
 
 {% block content %}
 {% with messages = get_flashed_messages() %}
@@ -12,27 +12,57 @@
 {% endfor %}
 {% endif %}
 {% endwith %}
-<form action="/add_client" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-      <label for="cedula">Cedula</label>
-      <input type="text" class="form-control" name="cedula" required>
-    </div>
-    <div class="form-group">
-      <label for="nombre">Nombre</label>
-      <input type="text" class="form-control" name="nombre" required>
-    </div>
-    <div class="form-group">
-        <label for="direccion">Direccion</label>
-        <input type="text" class="form-control" name="direccion" required>
-    </div>
-    <div class="form-group">
-        <label for="telefono">Telefono</label>
-        <input type="tel" class="form-control" name="telefono" required>
-    </div>
-    <div class="form-group">
-        <label for="foto">Foto</label>
-        <input type="file" class="form-control-file" name="foto" required>
-    </div>
-    <button type="submit" class="btn btn-primary">Registrar Cliente</button>
-  </form>
+    <form action="/add_client" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label for="cedula">Cedula</label>
+          <input type="text" class="form-control" name="cedula" required>
+        </div>
+        <div class="form-group">
+          <label for="nombre">Nombre</label>
+          <input type="text" class="form-control" name="nombre" required>
+        </div>
+        <div class="form-group">
+            <label for="direccion">Direccion</label>
+            <input type="text" class="form-control" name="direccion" required>
+        </div>
+        <div class="form-group">
+            <label for="telefono">Telefono</label>
+            <input type="tel" class="form-control" name="telefono" required>
+        </div>
+        <div class="form-group">
+            <label for="foto">Foto</label>
+            <input type="file" class="form-control-file" name="foto" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar Cliente</button>
+      </form>
+      <p></p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Cedula</th>
+                <th>Nombre</th>
+                <th>Direccion</th>
+                <th>Telefono</th>
+                <th>Foto</th>
+                <th>Opciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for data in cliente%}
+        <tr>
+            <td>{{ data.1 }}</td>
+            <td>{{ data.2 }}</td>
+            <td>{{ data.3 }}</td>
+            <td>{{ data.4 }}</td>
+            <td>
+                <a href="/static/user_files/{{ data.5 }}" target="_blank">Foto</a>
+            </td>
+            <td>
+                <a href="/edit_client/{{ data.0 }}" class="btn btn-outline-secondary">Edit</a>
+                <a href="/delete_client/{{ data.0}}" class="btn btn-outline-danger">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>  
 {% endblock %}
