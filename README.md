@@ -12,10 +12,10 @@ Esta prueba consiste en 2 apartados, Conocimientos en Python para desarrollo web
 
 La distribuidora **Sancho Limitada**, se especializa en la venta de ropa (retail) para caballero. Lo ha contratado como desarrollador para realizar un aplicativo web responsive, sobre MySQL, el cual permitirá registrar clientes (*cédula, nombre, dirección, teléfono y foto*), productos (*código del producto, categoría, nombre, precio, cantidad en bodega, estado -activo, inactivo-*) y facturas (*código de la factura, cliente que realiza la compra, productos, cantidad de productos, fecha de compra, valor total y método de pago*). Se debe poder: 
 
-- Registrar y Editar Productos 
+- [x] Registrar y Editar Productos 
 - [x] Registrar y Editar Clientes 
 - Registrar y Editar Facturas 
-- Listar Productos 
+- [x] Listar Productos 
 - [x] Listar Clientes 
 - Listar Facturas 
 - Desactivar productos (*dejando de aparecer en el listado*)
