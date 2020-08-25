@@ -113,10 +113,39 @@ def delete_client(id):
     return redirect(url_for('client'))
 
 
-# Route for products
+# Route for Product
 @app.route('/product')
 def product():
-    return render_template('product.html')
+    cur = mysql.connection.cursor()
+    cur.execute('''SELECT * from productos''')
+    sql_cli = cur.fetchall()
+    return render_template('product.html', product=sql_cli)
+
+
+# Route for add product
+@app.route('/add_product', methods=['GET', 'POST'])
+def add_product():
+    if request.method == 'POST':
+        codigo = request.form['codigo']
+        categoria = request.form['categoria']
+        nombre = request.form['nombreprod']
+        precio = request.form['precio']
+        cantidad = request.form['cantidad']
+        estado = request.form['estado']
+        print(codigo, categoria, nombre, precio, cantidad)
+
+        # Insert data into database
+        cur = mysql.connection.cursor()
+        cur.execute('''
+          INSERT
+          INTO productos(codigo, categoria, nomprod, precio, cantbod, estado)
+          VALUES (%s, %s, %s, %s, %s, %s)
+        ''', (codigo, categoria, nombre, precio, cantidad, estado))
+        mysql.connection.commit()
+        flash('Producto agregado con exito')
+        return redirect(url_for('product'))
+    else:
+        return render_template('product.html')
 
 
 # call to flask app
